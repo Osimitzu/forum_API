@@ -1,4 +1,5 @@
 const Users = require("../models/users.model");
+const bcrypt = require("bcrypt");
 
 const createUser = async (req, res) => {
   try {
@@ -24,7 +25,11 @@ const createUser = async (req, res) => {
         message: "password  can not be null or different to string",
       });
     }
-    await Users.create({ username, email, password });
+
+    // Hasheamos la contraseña
+    const hashed = await bcrypt.hash(password, 10); 
+
+    await Users.create({ username, email, password: hashed });
     res.status(201).send();
   } catch (err) {
     res.status(400).json(err);
