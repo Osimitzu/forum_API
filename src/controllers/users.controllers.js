@@ -27,7 +27,7 @@ const createUser = async (req, res) => {
     }
 
     // Hasheamos la contraseña
-    const hashed = await bcrypt.hash(password, 10); 
+    const hashed = await bcrypt.hash(password, 10);
 
     await Users.create({ username, email, password: hashed });
     res.status(201).send();
@@ -36,6 +36,42 @@ const createUser = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // validar que el email exista y sea string
+    // existe el usuario con email?
+    const user = await Users.findOne({
+      where: { email },
+    });
+
+    if(!user) { // null --> false niego un falso obtengo un verdadero
+      return res.status(400).json({
+        error: "Invalid email",
+        message: "Email doesn't exist", 
+      });
+    };
+
+    // comparar las contraseñas
+    console.log(user.password);
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if(!validPassword) {
+      return res.status(400).json({
+        message: 'YOU SHALL NOT PASS'
+      });
+    };
+
+    const { firstName, lastName, id, username, roleId } = user
+
+    res.json({ firstName, lastName, id, email, username, roleId });
+  
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 module.exports = {
   createUser,
+  login,
 };

@@ -16,7 +16,7 @@ db.sync() // "{force: true}" borra la informacion de todas las tablas y las crea
   .catch((err) => console.log(err));
 
 const app = express();
-app.use(express.json());
+app.use(express.json()); 
 
 const PORT = process.env.PORT || 8000;
 
