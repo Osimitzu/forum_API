@@ -4,7 +4,7 @@ const { DataTypes } = require("sequelize");
 const Posts = db.define(
   "posts",
   {
-    //Sequelize crea por defecto el id :D 
+    //Sequelize crea por defecto el id :D
     title: {
       type: DataTypes.STRING,
       allowNull: false,

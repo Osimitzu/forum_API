@@ -1,5 +1,6 @@
 const Users = require("../models/users.model");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
   try {
@@ -45,27 +46,40 @@ const login = async (req, res) => {
       where: { email },
     });
 
-    if(!user) { // null --> false niego un falso obtengo un verdadero
+    if (!user) {
+      // null --> false niego un falso obtengo un verdadero
       return res.status(400).json({
         error: "Invalid email",
-        message: "Email doesn't exist", 
+        message: "Email doesn't exist",
       });
-    };
+    }
 
     // comparar las contraseñas
     console.log(user.password);
     const validPassword = await bcrypt.compare(password, user.password);
 
-    if(!validPassword) {
+    if (!validPassword) {
       return res.status(400).json({
-        message: 'YOU SHALL NOT PASS'
+        message: "YOU SHALL NOT PASS",
       });
-    };
+    }
 
-    const { firstName, lastName, id, username, roleId } = user
+    const { firstName, lastName, id, username, roleId } = user;
 
-    res.json({ firstName, lastName, id, email, username, roleId });
-  
+    // debemos devolver un token para que el usuario loggeado pueda acceder a los recursos del backend
+
+    //Generar un token:
+    const userData = { firstName, lastName, id, email, username, roleId };
+
+    const token = jwt.sign(userData, "pacrat", {
+      algorithm: "HS512", 
+      expiresIn: '5m',
+    });
+
+    //Agregar el token en userData:
+    userData.token = token; 
+
+    res.json(userData);
   } catch (err) {
     res.status(400).json(err);
   }

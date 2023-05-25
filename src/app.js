@@ -2,8 +2,10 @@ const express = require("express");
 require("dotenv").config();
 const db = require("./utils/database");
 // require('./models/initModels'); // importo y ejecuto la función exportada de initModels (Es lo mismo que las dos lineas de abajo, pero no funciono con el initModels :c)
-const initModels = require("./models/initModels");
 const userRoutes = require("./routes/users.routes");
+const postRoutes = require("./routes/posts.routes");
+
+const initModels = require("./models/initModels");
 
 initModels();
 
@@ -16,7 +18,7 @@ db.sync() // "{force: true}" borra la informacion de todas las tablas y las crea
   .catch((err) => console.log(err));
 
 const app = express();
-app.use(express.json()); 
+app.use(express.json());
 
 const PORT = process.env.PORT || 8000;
 
@@ -25,7 +27,18 @@ app.get("/", (req, res) => {
 });
 
 app.use(userRoutes);
+app.use(postRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT} (/OoO)/`);
 });
+
+// No usuarios que pueden hacer?
+// ver - leer
+// get a todos los post por categoria
+// get a un post particular
+
+// crear un post necesita autenticación
+// crear una respuesta --> auth
+
+// proteger nuestras rutas
