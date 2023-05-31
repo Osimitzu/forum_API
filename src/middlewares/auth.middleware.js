@@ -7,8 +7,10 @@ const authenticate = (req, res, next) => {
     const token = req.headers["access-token"];
 
     if (!token) {
-      return res.status(401).json({
-        error: "not token provided//te falta el token papi",
+      return next({
+        status: 401,
+        error: "not token",
+        message: "token is not present on request headers",
       });
     }
 
@@ -17,10 +19,17 @@ const authenticate = (req, res, next) => {
       algorithms: "HS512",
     });
 
+    // el token esta expirado
+    // el token es invalido
+
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(401).json(err);
+    return next({
+      status: 498,
+      name: "Invalid or expired token",
+      message: err,
+    });
   }
 };
 
