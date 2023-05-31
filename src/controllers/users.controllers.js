@@ -4,32 +4,32 @@ const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
   try {
-    // validar la información
     const { username, email, password } = req.body;
-    // asegurarse de que no venga vacia
-    // asegurarse de que cumpla con el tipo de dato
-    if (typeof username !== "string" || !username) {
-      return res.status(400).json({
-        error: "invalid username",
-        message: "username can not be null or different to string",
-      });
-    }
-    if (typeof email !== "string" || !email) {
-      return res.status(400).json({
-        error: "invalid email",
-        message: "email can not be null or different to string",
-      });
-    }
-    if (typeof password !== "string" || !password) {
-      return res.status(400).json({
-        error: "invalid password",
-        message: "password  can not be null or different to string",
-      });
-    }
+    /* Remplazamos el siguiente codigo comentado por nuestro validador */
+    // // validar la información
+    // // asegurarse de que no venga vacia
+    // // asegurarse de que cumpla con el tipo de dato
+    // if (typeof username !== "string" || !username) {
+    //   return res.status(400).json({
+    //     error: "invalid username",
+    //     message: "username can not be null or different to string",
+    //   });
+    // }
+    // if (typeof email !== "string" || !email) {
+    //   return res.status(400).json({
+    //     error: "invalid email",
+    //     message: "email can not be null or different to string",
+    //   });
+    // }
+    // if (typeof password !== "string" || !password) {
+    //   return res.status(400).json({
+    //     error: "invalid password",
+    //     message: "password  can not be null or different to string",
+    //   });
+    // }
 
     // Hasheamos la contraseña
     const hashed = await bcrypt.hash(password, 10);
-
     await Users.create({ username, email, password: hashed });
     res.status(201).send();
   } catch (err) {
@@ -37,7 +37,7 @@ const createUser = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     // validar que el email exista y sea string
@@ -48,8 +48,9 @@ const login = async (req, res) => {
 
     if (!user) {
       // null --> false niego un falso obtengo un verdadero
-      return res.status(400).json({
-        error: "Invalid email",
+      return next({
+        status: 400,
+        name: "Invalid email",
         message: "Email doesn't exist",
       });
     }
@@ -59,8 +60,10 @@ const login = async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
-      return res.status(400).json({
-        message: "YOU SHALL NOT PASS",
+      return next({
+        status: 400,
+        name: "Invalid password",
+        message: "Your password doesn't match with user email",
       });
     }
 
@@ -72,12 +75,12 @@ const login = async (req, res) => {
     const userData = { firstName, lastName, id, email, username, roleId };
 
     const token = jwt.sign(userData, "pacrat", {
-      algorithm: "HS512", 
-      expiresIn: '5m',
+      algorithm: "HS512",
+      expiresIn: "5m",
     });
 
     //Agregar el token en userData:
-    userData.token = token; 
+    userData.token = token;
 
     res.json(userData);
   } catch (err) {
