@@ -32,3 +32,5 @@ errorRoutes(app);
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT} (/OoO)/`);
 });
+
+/*** HACER TEMPLATE DE PROYECTO ANTES DE LA SIGUIENTE CLASE ***/
