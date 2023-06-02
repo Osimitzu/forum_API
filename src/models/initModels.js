@@ -28,7 +28,7 @@ const initModels = () => {
   ////////////////////////////////////////////////
 
   //Un post es creado por un usuario:
-  Posts.belongsTo(Users, { foreignKey: "userId" });
+  Posts.belongsTo(Users, { as: "createdBy", foreignKey: "userId" });
   //Un usuario crea muchos posts:
   Users.hasMany(Posts, { foreignKey: "userId" });
 
