@@ -1,4 +1,6 @@
-# h1
+# Forum API
+
+Esta es una API para un foro creada con node, [express](https://expressjs.com/es/), sequelize y postgres.
 
 ## h2
 
