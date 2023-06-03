@@ -9,7 +9,7 @@ const authenticate = (req, res, next) => {
     if (!token) {
       return next({
         status: 401,
-        error: "not token",
+        name: "not token",
         message: "token is not present on request headers",
       });
     }

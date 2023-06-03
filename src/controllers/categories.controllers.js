@@ -9,6 +9,17 @@ const findAllCategories = async (req, res, next) => {
   }
 };
 
+const createCategories = async (req, res, next) => {
+  try {
+    const { categoryName, description } = req.body;
+    await Categories.create({ categoryName, description });
+    res.status(201).send();
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   findAllCategories,
+  createCategories,
 };
