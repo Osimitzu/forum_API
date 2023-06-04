@@ -17,6 +17,7 @@ Esta es una API para un foro creada con node, [express](https://expressjs.com/es
 - [x] Validacion de datos
 - [x] Autenticación
 - [x] Permisos
+- [x] Envio de correo
 - [ ] Validar email
 - [ ] Recuperar contraseña
 
