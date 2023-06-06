@@ -40,10 +40,15 @@ const Users = db.define(
       allowNull: false,
       field: "role_id",
     },
+    validUser: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      field: "valid_user",
+    },
   },
   {
     timestamps: false,
-  },
+  }
 );
 
 module.exports = Users;

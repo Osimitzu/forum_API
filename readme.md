@@ -11,14 +11,14 @@ Esta es una API para un foro creada con node, [express](https://expressjs.com/es
 - [x] Obtener una publicacion con sus respuestas
 - [x] Crear publicaciones de una categoria
 - [x] Crear respuestas en una publicación
-- [ ] Solo un admin puede crear categorias
+- [x] Solo un admin puede crear categorias
 - [ ] Paginación de publicaciones y respuestas
 - [x] Manejo de errores
 - [x] Validacion de datos
 - [x] Autenticación
 - [x] Permisos
 - [x] Envio de correo
-- [ ] Validar email
+- [x] Validar email
 - [ ] Recuperar contraseña
 
 ## Retos
