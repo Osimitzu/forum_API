@@ -1,0 +1,45 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Forum API",
+    "description": "Un API para un foro donde podras crear temas, responder publicaciones, crear tu usuario, identificarte...",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "summary": "End point para registrar a un usuario en el foro.",
+        "description": "Para que puedas crear un nuevo usuario, es necesario proporcionar un email válido, una contraseña de al menos 8 caracteres y un nombre de usuario. Estos campos son obligatorios.",
+        "tags": ["users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/register" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "register": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "osimitzu"
+          },
+          "email": {
+            "type": "string",
+            "example": "osiris@academlo.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345678"
+          }
+        }
+      }
+    }
+  }
+}
