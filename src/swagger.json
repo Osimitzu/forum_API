@@ -66,6 +66,71 @@
           }
         }
       }
+    },
+    "/posts/{categoryId}": {
+      "get": {
+        "tags": ["posts"],
+        "summary": "Con este endpoint podras obtener todas las publicaciónes que pertenecen a una categoria",
+        "description": "En la url es necesario colocar el id de la categoria de la cual quieres obtener las publicaciónes",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "description": "El id de la categoria"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/posts": {
+      "post": {
+        "summary": "Crear una nueva publicación",
+        "tags": ["posts"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Default title :D"
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "Default content mamalonche :D"
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 78
+                  },
+                  "categoryId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -99,6 +164,13 @@
             "example": "12345678"
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
